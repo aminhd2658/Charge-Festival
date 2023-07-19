@@ -19,13 +19,10 @@ class User extends Authenticatable
         'balance'
     ];
 
-    protected $with = [
-        'wallet'
-    ];
 
     public function wallet()
     {
-        return $this->hasMany(Wallet::class)->findOrFail();
+        return $this->hasMany(Wallet::class);
     }
 
 

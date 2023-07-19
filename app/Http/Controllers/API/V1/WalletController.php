@@ -21,7 +21,7 @@ class WalletController extends Controller
         $code = Code::where('code', $request->input('code'))->first();
 
         // Check if the code is valid
-        if (!($code && $code->isValid)) {
+        if (!($code && $code->valid)) {
             return response()->json([
                 'message' => 'Code is invalid'
             ], Response::HTTP_BAD_REQUEST);

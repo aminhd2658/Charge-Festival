@@ -20,6 +20,12 @@ class Code extends Model
 
     protected $appends = ['valid'];
 
+
+    protected $casts = [
+        'started_at' => 'datetime',
+        'expired_at' => 'datetime',
+    ];
+
     public function wallets()
     {
         return $this->hasMany(Wallet::class);
