@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
     Route::prefix('codes')->group(function () {
-        Route::post('create', [CodesController::class, 'create']);
+        Route::post('create', [CodesController::class, 'store']);
         Route::prefix('{code:code}')->group(function () {
             Route::post('', [CodesController::class, 'register']);
             Route::put('status', [CodesController::class, 'toggleStatus']);

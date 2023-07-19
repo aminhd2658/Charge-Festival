@@ -19,11 +19,9 @@ class Code extends Model
         'status'
     ];
 
-    protected $appends = ['isValid'];
-
     protected $casts = [
         'status' => 'integer',
-        'amount' => 'integer',
+        'amount' => 'integer'
     ];
 
     public function wallets()

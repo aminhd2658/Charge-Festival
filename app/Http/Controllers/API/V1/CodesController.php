@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterCodeRequest;
+use App\Http\Requests\StoreCodeRequest;
 use App\Http\Resources\UserResource;
 use App\Models\Code;
 use App\Services\CodeService;
@@ -19,6 +20,26 @@ class CodesController extends Controller
         return response()->json([
             'data' => UserResource::collection($code->wallets()->get()->pluck('user'))
         ]);
+    }
+
+    public function store(StoreCodeRequest $request)
+    {
+        if (Code::where('code', $request->input('code'))->first()) {
+            return response()->json([
+                'message' => 'This code has already been registered'
+            ], Response::HTTP_CONFLICT);
+        }
+
+        $code = (new CodeService())->create($request->only('code', 'count', 'amount'));
+
+        if ($code) {
+            return response()->json([
+                'data' => $code,
+                'message' => 'Created successfully'
+            ], Response::HTTP_CREATED);
+        } else {
+            return response()->json(null, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function register(RegisterCodeRequest $request, $code)

@@ -8,8 +8,20 @@ use App\Models\User;
 class CodeService
 {
 
-    public function __construct(private Code $code)
+    public function __construct(private ?Code $code = null)
     {
+    }
+
+
+    // Create new code
+    public function create(array $data)
+    {
+        return Code::create([
+            'code' => $data['code'],
+            'count' => $data['count'],
+            'amount' => $data['amount'],
+            'status' => Code::INACTIVE
+        ]);
     }
 
 
