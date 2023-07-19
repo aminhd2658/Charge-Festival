@@ -10,6 +10,8 @@ class Wallet extends Model
     use HasFactory;
 
     protected $table = 'wallet';
+
+    // Types
     const INCREMENT = 0;
     const DECREMENT = 1;
 

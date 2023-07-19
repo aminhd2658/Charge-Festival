@@ -25,9 +25,12 @@ class User extends Authenticatable
 
     public function wallet()
     {
-        return $this->hasMany(Wallet::class);
+        return $this->hasMany(Wallet::class)->findOrFail();
     }
 
+
+    // Calculating the current balance of the user wallet
+    // The sum of the amount column is rows where the type is 0 minus rows where the type is 1
     public function getBalanceAttribute()
     {
         return $this->wallet()

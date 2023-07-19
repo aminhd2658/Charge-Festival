@@ -25,9 +25,10 @@ class Code extends Model
         return $this->hasMany(Wallet::class);
     }
 
+    // Check code is valid or not - if returns true, code is usable
     public function getValidAttribute()
     {
-        if (! Carbon::now()->betweenIncluded($this->started_at, $this->expired_at)) {
+        if (!Carbon::now()->betweenIncluded($this->started_at, $this->expired_at)) {
             return false;
         }
 
