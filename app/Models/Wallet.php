@@ -20,6 +20,7 @@ class Wallet extends Model
     ];
 
     protected $casts = [
+        'amount' => 'integer',
         'type' => 'integer'
     ];
 
@@ -36,8 +37,8 @@ class Wallet extends Model
     public function getTypeInHumanAttribute()
     {
         return match ($this->type) {
-            self::INCREMENT => 'افزایش موجودی کیف پول',
-            self::DECREMENT => 'کاهش موجودی کیف پول',
+            self::INCREMENT => 'Increment wallet balance',
+            self::DECREMENT => 'Decrement wallet balance',
         };
     }
 }

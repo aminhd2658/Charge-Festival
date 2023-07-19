@@ -14,8 +14,10 @@ return new class extends Migration {
             $table->id();
             $table->boolean('type');
             $table->string('amount');
-            $table->foreignId('code_id')->nullable();
-            $table->foreignId('user_id');
+
+            $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('code_id')->nullable()->references('id')->on('codes');
+
             $table->timestamps();
         });
     }

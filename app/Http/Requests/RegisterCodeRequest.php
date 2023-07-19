@@ -22,8 +22,7 @@ class RegisterCodeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'mobile' => 'required|regex:/^09\d{9}$/',
-            'code' => 'required'
+            'mobile' => 'required|regex:/^09\d{9}$/'
         ];
     }
 }

@@ -19,9 +19,6 @@ class User extends Authenticatable
         'balance'
     ];
 
-    protected $with = [
-        'wallet'
-    ];
 
     public function wallet()
     {
@@ -33,7 +30,7 @@ class User extends Authenticatable
     // The sum of the amount column is rows where the type is 0 minus rows where the type is 1
     public function getBalanceAttribute()
     {
-        return $this->wallet()
+        return (integer)$this->wallet()
             ->select(DB::raw('SUM(CASE WHEN type = ' . Wallet::INCREMENT . ' THEN amount ELSE -amount END) as balance'))
             ->value('balance');
     }

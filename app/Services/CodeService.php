@@ -18,4 +18,13 @@ class CodeService
     {
         return (bool)$user->wallet()->where('code_id', $this->code->id)->first();
     }
+
+
+    // Returns true if the user used the code
+    public function changeStatus($nextStatus)
+    {
+        return $this->code->update([
+            'status' => $nextStatus
+        ]);
+    }
 }

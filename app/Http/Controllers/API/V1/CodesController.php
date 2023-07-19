@@ -21,18 +21,24 @@ class CodesController extends Controller
         ]);
     }
 
-    public function register(RegisterCodeRequest $request)
+    public function register(RegisterCodeRequest $request, $code)
     {
         $user = (new UserService())->store($request->only('mobile'));
-        $code = Code::where('code', $request->input('code'))->first();
+        $code = Code::where('code', $code)->first();
 
         // Check if the code is valid
-        if (!($code && $code->isValid)) {
+        if (!$code) {
             return response()->json([
                 'message' => 'Code is invalid'
             ], Response::HTTP_BAD_REQUEST);
         }
 
+        // Check if the code is expired
+        if (!$code->isValid) {
+            return response()->json([
+                'message' => 'Code is expired'
+            ], Response::HTTP_BAD_REQUEST);
+        }
 
         // Check if the code used by user
         if ((new CodeService($code))->used($user)) {
@@ -49,6 +55,23 @@ class CodesController extends Controller
         }
 
         return response()->json(null, Response::HTTP_INTERNAL_SERVER_ERROR);
+
+    }
+
+
+    // Change code status to active or inactive
+    public function toggleStatus(Code $code)
+    {
+
+        $updateStatus = (new CodeService($code))->changeStatus(!$code->status);
+
+        if ($updateStatus) {
+            return response()->json([
+                'message' => 'New status is ' . $code->status_in_human
+            ]);
+        } else {
+            return response()->json(null, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
 
     }
 }

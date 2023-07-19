@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,32 +9,41 @@ class Code extends Model
 {
     use HasFactory;
 
+    const INACTIVE = 0;
+    const ACTIVE = 1;
+
     protected $fillable = [
         'code',
         'count',
         'amount',
-        'started_at',
-        'expired_at',
+        'status'
     ];
 
     protected $appends = ['isValid'];
+
+    protected $casts = [
+        'status' => 'integer',
+        'amount' => 'integer',
+    ];
 
     public function wallets()
     {
         return $this->hasMany(Wallet::class);
     }
 
+
+    public function getStatusInHumanAttribute()
+    {
+        return match ($this->status) {
+            self::ACTIVE => 'Active',
+            self::INACTIVE => 'Inactive',
+        };
+    }
+
+
     // Check code is valid or not - if returns true, code is usable
     public function getIsValidAttribute()
     {
-        if (!Carbon::now()->betweenIncluded($this->started_at, $this->expired_at)) {
-            return false;
-        }
-
-        if ($this->wallets()->count() >= $this->count) {
-            return false;
-        }
-
-        return true;
+        return $this->status == self::ACTIVE && $this->wallets()->count() < $this->count;
     }
 }
