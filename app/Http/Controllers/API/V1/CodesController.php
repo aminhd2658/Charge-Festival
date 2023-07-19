@@ -4,24 +4,30 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterCodeRequest;
+use App\Http\Resources\UserResource;
 use App\Models\Code;
 use App\Services\CodeService;
 use App\Services\UserService;
 use App\Services\WalletService;
 use Illuminate\Http\Response;
 
-class WalletController extends Controller
+class CodesController extends Controller
 {
 
-    // Gets the user or creates the user if it doesn't exist
-    // Checking if the code exists, is valid, or has been used by the user
-    public function registerCode(RegisterCodeRequest $request)
+    public function getUsedByUsersList(Code $code)
+    {
+        return response()->json([
+            'data' => UserResource::collection($code->wallets()->get()->pluck('user'))
+        ]);
+    }
+
+    public function register(RegisterCodeRequest $request)
     {
         $user = (new UserService())->store($request->only('mobile'));
         $code = Code::where('code', $request->input('code'))->first();
 
         // Check if the code is valid
-        if (!($code && $code->valid)) {
+        if (!($code && $code->isValid)) {
             return response()->json([
                 'message' => 'Code is invalid'
             ], Response::HTTP_BAD_REQUEST);

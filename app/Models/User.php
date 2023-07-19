@@ -19,6 +19,9 @@ class User extends Authenticatable
         'balance'
     ];
 
+    protected $with = [
+        'wallet'
+    ];
 
     public function wallet()
     {

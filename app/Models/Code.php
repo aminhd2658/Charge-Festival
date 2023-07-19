@@ -18,13 +18,7 @@ class Code extends Model
         'expired_at',
     ];
 
-    protected $appends = ['valid'];
-
-
-    protected $casts = [
-        'started_at' => 'datetime',
-        'expired_at' => 'datetime',
-    ];
+    protected $appends = ['isValid'];
 
     public function wallets()
     {
@@ -32,7 +26,7 @@ class Code extends Model
     }
 
     // Check code is valid or not - if returns true, code is usable
-    public function getValidAttribute()
+    public function getIsValidAttribute()
     {
         if (!Carbon::now()->betweenIncluded($this->started_at, $this->expired_at)) {
             return false;
