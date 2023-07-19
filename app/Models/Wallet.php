@@ -9,8 +9,6 @@ class Wallet extends Model
 {
     use HasFactory;
 
-    protected $table = 'wallet';
-
     // Types
     const INCREMENT = 0;
     const DECREMENT = 1;
@@ -21,6 +19,10 @@ class Wallet extends Model
         'code_id'
     ];
 
+    protected $casts = [
+        'type' => 'integer'
+    ];
+
     public function code()
     {
         return $this->belongsTo(Code::class);
@@ -29,5 +31,13 @@ class Wallet extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getTypeInHumanAttribute()
+    {
+        return match ($this->type) {
+            self::INCREMENT => 'افزایش موجودی کیف پول',
+            self::DECREMENT => 'کاهش موجودی کیف پول',
+        };
     }
 }
