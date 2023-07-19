@@ -18,7 +18,7 @@ class CodesController extends Controller
     public function getUsersUsedCode(Code $code)
     {
         return response()->json([
-            'data' => UserResource::collection($code->wallets()->get()->pluck('user'))
+            'data' => UserResource::collection($code->wallets()->paginate()->pluck('user'))
         ]);
     }
 
