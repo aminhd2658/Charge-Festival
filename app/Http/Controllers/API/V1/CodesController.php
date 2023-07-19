@@ -14,7 +14,7 @@ use Illuminate\Http\Response;
 class CodesController extends Controller
 {
 
-    public function getUsedByUsersList(Code $code)
+    public function getUsersUsedCode(Code $code)
     {
         return response()->json([
             'data' => UserResource::collection($code->wallets()->get()->pluck('user'))
