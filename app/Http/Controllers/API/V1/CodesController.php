@@ -47,7 +47,7 @@ class CodesController extends Controller
         $user = (new UserService())->store($request->only('mobile'));
         $code = Code::where('code', $code)->first();
 
-        // Check if the code is valid
+        // Check if the code is exists
         if (!$code) {
             return response()->json([
                 'message' => 'Code is invalid'
@@ -68,7 +68,7 @@ class CodesController extends Controller
             ], Response::HTTP_CONFLICT);
         }
 
-        // Charging user wallet
+        // Charging user's wallet
         if ((new WalletService($user))->storeUsingCode($code)) {
             return response()->json([
                 'message' => 'Successfully done'

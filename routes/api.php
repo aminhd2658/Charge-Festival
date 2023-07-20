@@ -14,7 +14,6 @@ Route::prefix('v1')->group(function () {
         });
     });
 
-
     Route::prefix('wallets/{user:mobile}')->group(function () {
         Route::get('balance', [UsersController::class, 'getBalance']);
         Route::get('transactions', [UsersController::class, 'getTransactionsReport']);

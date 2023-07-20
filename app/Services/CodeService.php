@@ -32,7 +32,7 @@ class CodeService
     }
 
 
-    // Returns true if the user used the code
+    // Change status of code
     public function changeStatus($nextStatus)
     {
         return $this->code->update([
