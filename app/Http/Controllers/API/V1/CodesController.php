@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterCodeRequest;
 use App\Http\Requests\StoreCodeRequest;
+use App\Http\Resources\CodeResource;
 use App\Http\Resources\UserResource;
 use App\Models\Code;
 use App\Services\CodeService;
@@ -34,7 +35,7 @@ class CodesController extends Controller
 
         if ($code) {
             return response()->json([
-                'data' => $code,
+                'data' => new CodeResource($code),
                 'message' => 'Created successfully'
             ], Response::HTTP_CREATED);
         } else {

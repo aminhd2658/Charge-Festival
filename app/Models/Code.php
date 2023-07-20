@@ -20,6 +20,7 @@ class Code extends Model
     ];
 
     protected $casts = [
+        'count' => 'integer',
         'status' => 'integer',
         'amount' => 'integer'
     ];

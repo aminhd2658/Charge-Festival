@@ -21,6 +21,7 @@ class RegisterCodeRequest extends FormRequest
      */
     public function rules(): array
     {
+        // Mobile number must start with "09" and have 11 characters
         return [
             'mobile' => 'required|regex:/^09\d{9}$/'
         ];
