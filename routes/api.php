@@ -8,9 +8,9 @@ Route::prefix('v1')->group(function () {
     Route::prefix('codes')->group(function () {
         Route::post('create', [CodesController::class, 'store']);
         Route::prefix('{code:code}')->group(function () {
+            Route::get('users', [CodesController::class, 'getUsersUsedCode']);
             Route::post('', [CodesController::class, 'register']);
             Route::put('status', [CodesController::class, 'toggleStatus']);
-            Route::get('users', [CodesController::class, 'getUsersUsedCode']);
         });
     });
 

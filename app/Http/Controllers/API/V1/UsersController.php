@@ -20,8 +20,9 @@ class UsersController extends Controller
 
     public function getTransactionsReport(User $user)
     {
+        $data = TransactionResource::collection($user->wallet()->orderByDesc('created_at')->get());
         return response()->json([
-            'data' => TransactionResource::collection($user->wallet()->orderByDesc('created_at')->get())
+            'data' => $data
         ]);
     }
 }
